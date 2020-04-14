@@ -29,8 +29,16 @@ public class FadeScene : MonoBehaviour
         animator.SetTrigger("FadeOut");
     }
 
-    public void OnFadeOutComplete()
-    {
+    public void OnFadeOutCompleted()
+    {        
         SceneManager.LoadScene(sceneIndexNeedToLoad);
+    }
+
+    public void OnFadeInCompleted()
+    {
+        //if (SceneManager.GetActiveScene().buildIndex == 1)
+        //{
+        //    Time.timeScale = 0;
+        //}        
     }
 }

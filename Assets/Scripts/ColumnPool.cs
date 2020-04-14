@@ -4,9 +4,9 @@ public class ColumnPool : MonoBehaviour
 {
     public int columnPoolSize = 5;
     public GameObject columnPrefab;
-    public float spawnRate = 2f;
-    public float columnMin = -2f;
-    public float columnMax = 3.5f;
+    public float spawnRate = 1.2f;
+    public float columnMin = -1.5f;
+    public float columnMax = 2f;
 
     private GameObject[] columns;
     private Vector2 objectPoolPosition = new Vector2(-15f, -25f);
@@ -26,16 +26,19 @@ public class ColumnPool : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timeSinceLastSpawned += Time.deltaTime;
-        if (timeSinceLastSpawned >= spawnRate)
+        if (!GameControl.instance.isPaused && GameControl.instance.isPlaying)
         {
-            timeSinceLastSpawned = 0;
-            var spawnYPosition = Random.Range(columnMin, columnMax);
-            columns[currentColumn].transform.position = new Vector2(spawnXPosition, spawnYPosition);
-            currentColumn++;
-            if (currentColumn >= columnPoolSize)
+            timeSinceLastSpawned += Time.deltaTime;
+            if (timeSinceLastSpawned >= spawnRate)
             {
-                currentColumn = 0;
+                timeSinceLastSpawned = 0;
+                var spawnYPosition = Random.Range(columnMin, columnMax);
+                columns[currentColumn].transform.position = new Vector2(spawnXPosition, spawnYPosition);
+                currentColumn++;
+                if (currentColumn == columnPoolSize)
+                {
+                    currentColumn = 0;
+                }
             }
         }
     }

@@ -19,7 +19,7 @@ public class Bird : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isDead)
+        if (!isDead && GameControl.instance.isPlaying && !GameControl.instance.isPaused)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -33,7 +33,7 @@ public class Bird : MonoBehaviour
 
     void OnCollisionEnter2D()
     {
-        if (!isDead)
+        if (!isDead && GameControl.instance.isPlaying)
         {
             rb2d.velocity = Vector2.zero;
             isDead = true;
