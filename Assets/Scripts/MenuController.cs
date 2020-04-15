@@ -10,7 +10,12 @@ public class MenuController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (currentBirdIndex == 0)
+            birdBlue.SetActive(true);
+        else if (currentBirdIndex == 1)
+            birdGreen.SetActive(true);
+        else
+            birdRed.SetActive(true);
     }
 
     // Update is called once per frame
@@ -21,26 +26,23 @@ public class MenuController : MonoBehaviour
 
     public void OnSwitchBirdClicked()
     {
+        birdBlue.SetActive(false);
+        birdRed.SetActive(false);
+        birdGreen.SetActive(false);
         if (currentBirdIndex == 0)
         {
             currentBirdIndex = 1;
-            birdBlue.SetActive(false);
             birdGreen.SetActive(true);
-            birdRed.SetActive(false);
         }
         else if (currentBirdIndex == 1)
         {
             currentBirdIndex = 2;
-            birdBlue.SetActive(false);
-            birdGreen.SetActive(false);
             birdRed.SetActive(true);
         }
         else 
         {
             currentBirdIndex = 0;
             birdBlue.SetActive(true);
-            birdGreen.SetActive(false);
-            birdRed.SetActive(false);
         }
     }
 

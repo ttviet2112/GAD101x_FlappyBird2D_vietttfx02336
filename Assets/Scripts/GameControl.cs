@@ -7,7 +7,7 @@ public class GameControl : MonoBehaviour
     public GameObject gameOverPanel;
     public float scrollSpeed = -3.5f;
     public Text scoreText;
-    public GameObject bird;
+    private GameObject bird;
     public Button pauseButton;
     public Button tapToStartButon;
     public AudioClip pingAudioClip;
@@ -19,6 +19,9 @@ public class GameControl : MonoBehaviour
     public GameObject goldMedal;
     public Text scoreGameOverText;
     public Text highscoreText;
+    public GameObject birdBlue;
+    public GameObject birdRed;
+    public GameObject birdGreen;
 
     private int score = 0;
     private int highscore;
@@ -38,11 +41,25 @@ public class GameControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void OnStartGame()
     {
+        // Check and change bird
+        if (MenuController.currentBirdIndex == 0)
+        {
+            bird = birdBlue;
+        }
+        else if (MenuController.currentBirdIndex == 1)
+        {
+            bird = birdGreen;
+        }
+        else
+        {
+            bird = birdRed;
+        }
+
         isPlaying = true;
         pauseButton.gameObject.SetActive(true);
         bird.SetActive(true);
@@ -93,7 +110,7 @@ public class GameControl : MonoBehaviour
         else
         {
             FadeScene.instance.FadeToScene(1);
-        }        
+        }
     }
 
     public void OnMainMenuButtonClicked()
