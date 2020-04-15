@@ -4,19 +4,21 @@ using UnityEngine.UI;
 public class GameControl : MonoBehaviour
 {
     public static GameControl instance;
-    public GameObject gameOverText;
     public GameObject gameOverPanel;
     public float scrollSpeed = -3.5f;
     public Text scoreText;
     public GameObject bird;
     public Button pauseButton;
-    public Button playButton;
-    public Button mainMenuButton;
     public Button tapToStartButon;
     public AudioClip pingAudioClip;
     public AudioClip deadAudioClip;
     public bool isPlaying;
     public bool isPaused;
+    public GameObject whiteMedal;
+    public GameObject brozenMedal;
+    public GameObject goldMedal;
+    public Text scoreGameOverText;
+    public Text highscoreText;
 
     private int score = 0;
     private int highscore;
@@ -45,19 +47,12 @@ public class GameControl : MonoBehaviour
         pauseButton.gameObject.SetActive(true);
         bird.SetActive(true);
         tapToStartButon.gameObject.SetActive(false);
-        PlayerPrefs.SetInt("SCORE", score);
     }
 
     public void BirdDied()
     {
-        SoundManager.instance.PlaySingle(deadAudioClip);        
-        
-        scoreText.text = string.Empty;
-        gameOverText.SetActive(true);
-        gameOverPanel.SetActive(true);
-        mainMenuButton.gameObject.SetActive(true);
-        playButton.gameObject.SetActive(true);
-        pauseButton.gameObject.SetActive(false);
+        SoundManager.instance.PlaySingle(deadAudioClip);
+        ShowGameOverPanel();
         isPlaying = false;
     }
 
@@ -76,17 +71,11 @@ public class GameControl : MonoBehaviour
             highscore = score;
             PlayerPrefs.SetInt("HIGHSCORE", highscore);
         }
-        
-        PlayerPrefs.SetInt("SCORE", score);
     }
 
     public void OnPauseButtonClicked()
     {
-        gameOverPanel.SetActive(true);
-        mainMenuButton.gameObject.SetActive(true);
-        playButton.gameObject.SetActive(true);
-        pauseButton.gameObject.SetActive(false);
-        scoreText.text = string.Empty;
+        ShowGameOverPanel();
         isPaused = true;
         Time.timeScale = 0;
     }
@@ -97,8 +86,6 @@ public class GameControl : MonoBehaviour
         if (isPaused)
         {
             gameOverPanel.SetActive(false);
-            mainMenuButton.gameObject.SetActive(false);
-            playButton.gameObject.SetActive(false);
             pauseButton.gameObject.SetActive(true);
             scoreText.text = $"Score: {score}";
             isPaused = false;
@@ -113,5 +100,30 @@ public class GameControl : MonoBehaviour
     {
         Time.timeScale = 1;
         FadeScene.instance.FadeToScene(0);
+    }
+
+    private void ShowGameOverPanel()
+    {
+        scoreGameOverText.text = score.ToString();
+        highscoreText.text = highscore.ToString();
+
+        whiteMedal.SetActive(false);
+        brozenMedal.SetActive(false);
+        goldMedal.SetActive(false);
+
+        if (highscore <= 20)
+        {
+            whiteMedal.SetActive(true);
+        }
+        else if (highscore > 20 && highscore < 40)
+        {
+            brozenMedal.SetActive(true);
+        }
+
+        goldMedal.SetActive(true);
+
+        gameOverPanel.SetActive(true);
+        pauseButton.gameObject.SetActive(false);
+        scoreText.text = string.Empty;
     }
 }
